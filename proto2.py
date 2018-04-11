@@ -241,8 +241,8 @@ def alldtw(data,ndata=44):
             distmatrix[i,j]=dtw(mfcc(data[i]['samples']),mfcc(data[j]['samples']))
     return distmatrix
           
-def gauss(data):
-    obj=GaussianMixture(n_components=8,covariance_type='diag')
+def gauss(data, comp):
+    obj=GaussianMixture(n_components=comp,covariance_type='diag')
     obj.fit(data)
     return obj
     
@@ -299,36 +299,33 @@ def main():
 
     #------------------------All Data--------------------------------------------------
     
-    #Correlation 
-    # al,l,mdict=collectmfcc(data)
+#Correlation 
+    al,l,mdict=collectmfcc(data)
     # corr(al)
 
-    #compare utterance
-    dmat=alldtw(data)
-    r=to.tidigit2labels(data)
-    plt.pcolormesh(dmat)
-    plt.xticks(np.arange(len(dmat)),r, rotation=90)
-    plt.yticks(np.arange(len(dmat)),r)
+#compare utterance
+    # dmat=alldtw(data)
+    # r=to.tidigit2labels(data)
+    # plt.pcolormesh(dmat)
+    # plt.xticks(np.arange(len(dmat)),r, rotation=90)
+    # plt.yticks(np.arange(len(dmat)),r)
+    # plt.show()
+    # Z=linkage(dmat)
+    # dn=dendrogram(Z,labels = r)
+    # plt.show()
+
+#gaussian
+    obj=gauss(al, 8)
+    r=obj.predict_proba(mdict[2])
+    e=obj.predict_proba(mdict[3])
+    plt.pcolormesh(r)
+    plt.show()
+    plt.pcolormesh(e)
+    plt.show()
+    plt.pcolormesh( al)
     plt.show()
 
-    # obj=gauss(al)
-    # r=obj.predict_proba(mdict[2])
-    # e=obj.predict_proba(mdict[3])
-    # plt.pcolormesh(r)
-    # plt.show()
-    # plt.pcolormesh(e)
-    # plt.show()
-    # plt.pcolormesh( al)
 
-
-
-
-    #Z=linkage(dmat)
-    #dn=dendrogram(Z)
-    #plt.show()
-    #print(d)
-    #a,b,c = collectmfcc(data)
-    #e=example
 
 if __name__ == '__main__':
     main()
