@@ -62,12 +62,12 @@ def mfcc(samples, winlen = 400, winshift = 200, preempcoeff=0.97, nfft=512, ncep
     mspec = logMelSpectrum(spec, samplingrate)
     ceps = cepstrum(mspec, nceps)
 
-    #lmfcc=to.lifter(ceps,liftercoeff)
+    lmfcc=to.lifter(ceps,liftercoeff)
     #corr=np.corrcoef(lmfcc)
     #plt.pcolormesh(corr)
     #plt.show()
 
-    return ceps
+    return lmfcc
 
 # Functions to be implemented ----------------------------------
 
@@ -253,7 +253,6 @@ def corr(allmfcc):
     #plt.axis([0,len(allmfcc),0,len(allmfcc)])
     plt.show()
 
-
 def main():
 
     #------------------------testing of functions -------------------------------------
@@ -315,15 +314,18 @@ def main():
     # plt.show()
 
 #gaussian
-    obj=gauss(al, 8)
-    r=obj.predict_proba(mdict[2])
-    e=obj.predict_proba(mdict[3])
+    print(len(mdict))
+    obj=gauss(al, 32)
+    r=obj.predict_proba(mdict[16])
+    e=obj.predict_proba(mdict[17])
+
+    plt.subplot(2,1,1)
     plt.pcolormesh(r)
-    plt.show()
+    plt.subplot(2,1,2)
     plt.pcolormesh(e)
     plt.show()
-    plt.pcolormesh( al)
-    plt.show()
+    # plt.pcolormesh(al)
+    # plt.show()
 
 
 
